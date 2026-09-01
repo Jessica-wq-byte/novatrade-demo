@@ -6,67 +6,183 @@
 <title>NovaTrade Demo</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="demo-banner">DEMO / SIMULATION — NO REAL MONEY</div>
+
+<div class="demo-banner">
+  DEMO / SIMULATION — NO REAL MONEY
+</div>
+
 <header class="nav">
   <div class="brand">Nova<span>Trade</span></div>
   <a href="#dashboard">Open Demo</a>
 </header>
 
 <main>
+
 <section class="hero">
+
   <div>
     <p class="eyebrow">PAPER TRADING + AFFILIATE DEMO</p>
+
     <h1>Practice investing with virtual money.</h1>
-    <p class="sub">Explore a broker-style dashboard, simulated hourly returns and a referral system without depositing real funds.</p>
-    <button onclick="openDemo()">Launch Demo Dashboard</button>
+
+    <p class="sub">
+      Explore a broker-style dashboard, simulated hourly returns and a referral system without depositing real funds.
+    </p>
+
+    <a href="#dashboard" class="launch-btn">
+      Launch Demo Dashboard
+    </a>
   </div>
+
   <div class="hero-card">
     <div class="mini-label">SIMULATED PORTFOLIO</div>
+
     <strong id="heroBalance">$10,000.00</strong>
-    <div class="gain">+$120.00 simulated today</div>
+
+    <div class="gain">
+      +$120.00 simulated today
+    </div>
   </div>
+
 </section>
 
+
 <section id="dashboard" class="dashboard">
+
   <div class="section-head">
-    <div><p class="eyebrow">DEMO DASHBOARD</p><h2>Your portfolio</h2></div>
-    <span class="status">● Simulation active</span>
+
+    <div>
+      <p class="eyebrow">DEMO DASHBOARD</p>
+      <h2>Your portfolio</h2>
+    </div>
+
+    <span class="status">
+      ● Simulation active
+    </span>
+
   </div>
+
 
   <div class="cards">
-    <div class="card"><span>Virtual balance</span><b id="balance">$10,000.00</b></div>
-    <div class="card"><span>Simulated profit</span><b id="profit">$0.00</b></div>
-    <div class="card"><span>Referral commission</span><b id="commission">$0.00</b></div>
-    <div class="card"><span>Referrals</span><b id="referrals">0</b></div>
+
+    <div class="card">
+      <span>Virtual balance</span>
+      <b id="balance">$10,000.00</b>
+    </div>
+
+    <div class="card">
+      <span>Simulated profit</span>
+      <b id="profit">$0.00</b>
+    </div>
+
+    <div class="card">
+      <span>Referral commission</span>
+      <b id="commission">$0.00</b>
+    </div>
+
+    <div class="card">
+      <span>Referrals</span>
+      <b id="referrals">0</b>
+    </div>
+
   </div>
 
+
   <div class="grid">
+
     <div class="panel">
-      <div class="panel-title"><h3>Demo investment plans</h3><span>Virtual funds only</span></div>
+
+      <div class="panel-title">
+        <h3>Demo investment plans</h3>
+        <span>Virtual funds only</span>
+      </div>
+
       <div class="plans">
-        <button class="plan" onclick="invest(500)"><b>Starter</b><small>$500 virtual</small><span>Simulated +0.10% / hour</span></button>
-        <button class="plan" onclick="invest(2000)"><b>Growth</b><small>$2,000 virtual</small><span>Simulated +0.15% / hour</span></button>
-        <button class="plan" onclick="invest(5000)"><b>Pro</b><small>$5,000 virtual</small><span>Simulated +0.20% / hour</span></button>
+
+        <button class="plan" onclick="invest(500)">
+          <b>Starter</b>
+          <small>$500 virtual</small>
+          <span>Simulated +0.10% / hour</span>
+        </button>
+
+        <button class="plan" onclick="invest(2000)">
+          <b>Growth</b>
+          <small>$2,000 virtual</small>
+          <span>Simulated +0.15% / hour</span>
+        </button>
+
+        <button class="plan" onclick="invest(5000)">
+          <b>Pro</b>
+          <small>$5,000 virtual</small>
+          <span>Simulated +0.20% / hour</span>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div class="panel-title">
+        <h3>Affiliate demo</h3>
+        <span>Simulated commissions</span>
+      </div>
+
+      <p>
+        Share your demo referral code with friends.
+      </p>
+
+      <div class="refbox">
+
+        <code id="refcode">
+          NOVA-DEMO-7K2Q
+        </code>
+
+        <button onclick="copyRef()">
+          Copy
+        </button>
+
+      </div>
+
+      <div class="affiliate-stats">
+        <span>Demo commission rate</span>
+        <b>5%</b>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="panel history">
+
+    <div class="panel-title">
+      <h3>Activity</h3>
+      <span>Local browser demo</span>
+    </div>
+
+    <div id="activity">
+      <div class="empty">
+        No activity yet. Choose a demo plan above.
       </div>
     </div>
 
-    <div class="panel">
-      <div class="panel-title"><h3>Affiliate demo</h3><span>Simulated commissions</span></div>
-      <p>Share your demo referral code with friends.</p>
-      <div class="refbox"><code id="refcode">NOVA-DEMO-7K2Q</code><button onclick="copyRef()">Copy</button></div>
-      <div class="affiliate-stats"><span>Demo commission rate</span><b>5%</b></div>
-    </div>
   </div>
 
-  <div class="panel history">
-    <div class="panel-title"><h3>Activity</h3><span>Local browser demo</span></div>
-    <div id="activity"><div class="empty">No activity yet. Choose a demo plan above.</div></div>
-  </div>
 </section>
+
 </main>
 
-<footer>NovaTrade Demo © 2026 · This website is a simulation. No real deposits, withdrawals, investments or financial returns are offered.</footer>
+
+<footer>
+  NovaTrade Demo © 2026 · This website is a simulation. No real deposits, withdrawals, investments or financial returns are offered.
+</footer>
+
+
 <script src="app.js"></script>
+
 </body>
 </html>
