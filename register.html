@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Register — NovaTrade</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+</head>
+
+<body>
+
+<div class="demo-banner">
+  TEST PLATFORM — NO REAL MONEY
+</div>
+
+<header class="nav">
+  <div class="brand">Nova<span>Trade</span></div>
+  <a href="login.html" class="nav-link">Login</a>
+</header>
+
+<main>
+  <section class="dashboard">
+
+    <div class="panel" style="max-width:520px;margin:auto;">
+
+      <p class="eyebrow">CREATE ACCOUNT</p>
+
+      <h2>Create your NovaTrade account</h2>
+
+      <p style="color:#8ea2b9;margin:10px 0 25px;">
+        Create a test account to access your dashboard.
+      </p>
+
+      <form id="registerForm">
+
+        <label>Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="you@example.com"
+          required
+        >
+
+        <label>Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Minimum 6 characters"
+          minlength="6"
+          required
+        >
+
+        <label>Full name</label>
+        <input
+          id="fullName"
+          type="text"
+          placeholder="Your name"
+          required
+        >
+
+        <label>Referral code (optional)</label>
+        <input
+          id="referralCode"
+          type="text"
+          placeholder="Enter referral code"
+        >
+
+        <button class="launch-btn" type="submit" style="width:100%;margin-top:20px;">
+          Create Account
+        </button>
+
+      </form>
+
+      <p id="message" style="margin-top:18px;"></p>
+
+      <p style="margin-top:20px;color:#8ea2b9;">
+        Already have an account?
+        <a href="login.html" style="color:#5da9ff;">Login</a>
+      </p>
+
+    </div>
+
+  </section>
+</main>
+
+<script>
+
+const form = document.getElementById("registerForm");
+const message = document.getElementById("message");
+
+form.addEventListener("submit", async function(event) {
+
+  event.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const fullName = document.getElementById("fullName").value.trim();
+  const referralCode = document.getElementById("referralCode").value.trim();
+
+  message.textContent = "Creating your account...";
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    message.textContent = error.message;
+    return;
+  }
+
+  if (!data.user) {
+    message.textContent = "Account created. Please check your email to confirm your account.";
+    return;
+  }
+
+  const { error: profileError } = await supabaseClient
+    .from("profiles")
+    .insert({
+      id: data.user.id,
+      email: email,
+      full_name: fullName,
+      referral_code: referralCode || null,
+      test_balance: 0
+    });
+
+  if (profileError) {
+    message.textContent = "Account created but profile setup failed: " + profileError.message;
+    return;
+  }
+
+  message.textContent = "Account created successfully! Redirecting...";
+
+  setTimeout(function() {
+    window.location.href = "dashboard.html";
+  }, 1000);
+
+});
+
+</script>
+
+</body>
+</html>
