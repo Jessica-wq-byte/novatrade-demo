@@ -6,49 +6,71 @@ const state = {
   invested: 0
 };
 
-function money(n) {
-  return "$" + Number(n).toLocaleString(undefined, {
+function money(value) {
+  return "$" + Number(value).toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
 }
 
 function render() {
-  const balanceEl = document.getElementById("balance");
-  const profitEl = document.getElementById("profit");
-  const commissionEl = document.getElementById("commission");
-  const referralsEl = document.getElementById("referrals");
-  const heroBalanceEl = document.getElementById("heroBalance");
 
-  if (balanceEl) balanceEl.textContent = money(state.balance);
-  if (profitEl) profitEl.textContent = money(state.profit);
-  if (commissionEl) commissionEl.textContent = money(state.commission);
-  if (referralsEl) referralsEl.textContent = state.referrals;
-  if (heroBalanceEl) heroBalanceEl.textContent = money(state.balance);
+  const balance = document.getElementById("balance");
+  const profit = document.getElementById("profit");
+  const commission = document.getElementById("commission");
+  const referrals = document.getElementById("referrals");
+  const heroBalance = document.getElementById("heroBalance");
+
+  if (balance) {
+    balance.textContent = money(state.balance);
+  }
+
+  if (profit) {
+    profit.textContent = money(state.profit);
+  }
+
+  if (commission) {
+    commission.textContent = money(state.commission);
+  }
+
+  if (referrals) {
+    referrals.textContent = state.referrals;
+  }
+
+  if (heroBalance) {
+    heroBalance.textContent = money(state.balance);
+  }
 }
 
 function addActivity(title, amount) {
-  const box = document.getElementById("activity");
-  if (!box) return;
 
-  const empty = box.querySelector(".empty");
-  if (empty) empty.remove();
+  const activity = document.getElementById("activity");
+
+  if (!activity) return;
+
+  const empty = activity.querySelector(".empty");
+
+  if (empty) {
+    empty.remove();
+  }
 
   const row = document.createElement("div");
   row.className = "event";
 
-  const titleEl = document.createElement("span");
-  titleEl.textContent = title;
+  const titleElement = document.createElement("span");
+  titleElement.textContent = title;
 
-  const amountEl = document.createElement("b");
-  amountEl.textContent = amount;
+  const amountElement = document.createElement("b");
+  amountElement.textContent = amount;
 
-  row.appendChild(titleEl);
-  row.appendChild(amountEl);
-  box.prepend(row);
+  row.appendChild(titleElement);
+  row.appendChild(amountElement);
+
+  activity.prepend(row);
 }
 
 function invest(amount) {
+
   if (state.balance < amount) {
     alert("Not enough virtual funds.");
     return;
@@ -57,12 +79,19 @@ function invest(amount) {
   state.balance -= amount;
   state.invested += amount;
 
-  addActivity("Demo investment", money(amount));
+  addActivity(
+    "Demo investment",
+    "-" + money(amount)
+  );
+
   render();
 }
 
 function simulateHour() {
-  if (state.invested <= 0) return;
+
+  if (state.invested <= 0) {
+    return;
+  }
 
   const rate = 0.0015;
   const gain = state.invested * rate;
@@ -70,40 +99,41 @@ function simulateHour() {
   state.profit += gain;
   state.balance += gain;
 
-  addActivity("Simulated hourly return", "+" + money(gain));
+  addActivity(
+    "Simulated hourly return",
+    "+" + money(gain)
+  );
+
   render();
 }
 
-function openDemo() {
-  const dashboard = document.getElementById("dashboard");
-
-  if (dashboard) {
-    dashboard.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
-}
-
 function copyRef() {
+
   const code = document.getElementById("refcode");
 
   if (!code) return;
 
-  navigator.clipboard
-    .writeText(code.textContent)
-    .then(() => {
-      addActivity("Referral code copied", "Demo");
-    })
-    .catch(() => {
-      alert("Referral code: " + code.textContent);
-    });
+  const text = code.textContent.trim();
+
+  if (navigator.clipboard) {
+
+    navigator.clipboard.writeText(text)
+      .then(function () {
+        addActivity("Referral code copied", "Demo");
+      })
+      .catch(function () {
+        alert("Referral code: " + text);
+      });
+
+  } else {
+
+    alert("Referral code: " + text);
+
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
   render();
 });
 
-// Demo simulation only.
-// Updates every 10 seconds for testing.
 setInterval(simulateHour, 10000);
