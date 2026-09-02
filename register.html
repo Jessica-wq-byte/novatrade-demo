@@ -36,6 +36,14 @@
 
       <form id="registerForm">
 
+        <label>Full name</label>
+        <input
+          id="fullName"
+          type="text"
+          placeholder="Your full name"
+          required
+        >
+
         <label>Email</label>
         <input
           id="email"
@@ -43,6 +51,24 @@
           placeholder="you@example.com"
           required
         >
+
+        <label>Phone number</label>
+        <input
+          id="phone"
+          type="tel"
+          placeholder="+234 801 234 5678"
+          required
+        >
+
+        <label>Country</label>
+        <select id="country" required>
+          <option value="">Select your country</option>
+        </select>
+
+        <label>Currency</label>
+        <select id="currency" required>
+          <option value="">Select your currency</option>
+        </select>
 
         <label>Password</label>
         <input
@@ -53,11 +79,12 @@
           required
         >
 
-        <label>Full name</label>
+        <label>Confirm password</label>
         <input
-          id="fullName"
-          type="text"
-          placeholder="Your name"
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirm your password"
+          minlength="6"
           required
         >
 
@@ -88,6 +115,117 @@
 
 <script>
 
+// Countries
+const countries = [
+  "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda",
+  "Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain",
+  "Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan",
+  "Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria",
+  "Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde",
+  "Central African Republic","Chad","Chile","China","Colombia","Comoros",
+  "Congo","Costa Rica","Croatia","Cuba","Cyprus","Czech Republic",
+  "Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt",
+  "El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia",
+  "Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana",
+  "Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti",
+  "Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland",
+  "Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati",
+  "Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya",
+  "Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia",
+  "Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius",
+  "Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco",
+  "Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand",
+  "Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway",
+  "Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay",
+  "Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda",
+  "Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines",
+  "Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal",
+  "Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
+  "Solomon Islands","Somalia","South Africa","South Korea","South Sudan",
+  "Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria",
+  "Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga",
+  "Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda",
+  "Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay",
+  "Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia",
+  "Zimbabwe"
+];
+
+const countrySelect = document.getElementById("country");
+
+countries.forEach(function(country) {
+  const option = document.createElement("option");
+  option.value = country;
+  option.textContent = country;
+  countrySelect.appendChild(option);
+});
+
+// Currencies
+const currencies = [
+  ["USD","US Dollar ($)"],
+  ["EUR","Euro (€)"],
+  ["GBP","British Pound (£)"],
+  ["NGN","Nigerian Naira (₦)"],
+  ["CAD","Canadian Dollar (C$)"],
+  ["AUD","Australian Dollar (A$)"],
+  ["NZD","New Zealand Dollar (NZ$)"],
+  ["ZAR","South African Rand (R)"],
+  ["GHS","Ghanaian Cedi (GH₵)"],
+  ["KES","Kenyan Shilling (KSh)"],
+  ["UGX","Ugandan Shilling (USh)"],
+  ["TZS","Tanzanian Shilling (TSh)"],
+  ["INR","Indian Rupee (₹)"],
+  ["JPY","Japanese Yen (¥)"],
+  ["CNY","Chinese Yuan (¥)"],
+  ["KRW","South Korean Won (₩)"],
+  ["SGD","Singapore Dollar (S$)"],
+  ["HKD","Hong Kong Dollar (HK$)"],
+  ["AED","UAE Dirham (د.إ)"],
+  ["SAR","Saudi Riyal (﷼)"],
+  ["QAR","Qatari Riyal (﷼)"],
+  ["KWD","Kuwaiti Dinar (د.ك)"],
+  ["BHD","Bahraini Dinar (BD)"],
+  ["OMR","Omani Rial (﷼)"],
+  ["TRY","Turkish Lira (₺)"],
+  ["BRL","Brazilian Real (R$)"],
+  ["MXN","Mexican Peso ($)"],
+  ["ARS","Argentine Peso ($)"],
+  ["CLP","Chilean Peso ($)"],
+  ["COP","Colombian Peso ($)"],
+  ["PEN","Peruvian Sol (S/)"],
+  ["PHP","Philippine Peso (₱)"],
+  ["IDR","Indonesian Rupiah (Rp)"],
+  ["MYR","Malaysian Ringgit (RM)"],
+  ["THB","Thai Baht (฿)"],
+  ["VND","Vietnamese Dong (₫)"],
+  ["PKR","Pakistani Rupee (₨)"],
+  ["BDT","Bangladeshi Taka (৳)"],
+  ["LKR","Sri Lankan Rupee (Rs)"],
+  ["NPR","Nepalese Rupee (₨)"],
+  ["EGP","Egyptian Pound (E£)"],
+  ["MAD","Moroccan Dirham (د.م.)"],
+  ["DZD","Algerian Dinar (دج)"],
+  ["TND","Tunisian Dinar (د.ت)"],
+  ["ETB","Ethiopian Birr"],
+  ["RUB","Russian Ruble (₽)"],
+  ["UAH","Ukrainian Hryvnia (₴)"],
+  ["PLN","Polish Zloty (zł)"],
+  ["CZK","Czech Koruna (Kč)"],
+  ["SEK","Swedish Krona (kr)"],
+  ["NOK","Norwegian Krone (kr)"],
+  ["DKK","Danish Krone (kr)"],
+  ["CHF","Swiss Franc (CHF)"]
+];
+
+const currencySelect = document.getElementById("currency");
+
+currencies.forEach(function(currency) {
+  const option = document.createElement("option");
+  option.value = currency[0];
+  option.textContent = currency[1];
+  currencySelect.appendChild(option);
+});
+
+// Registration
 const form = document.getElementById("registerForm");
 const message = document.getElementById("message");
 
@@ -97,14 +235,32 @@ form.addEventListener("submit", async function(event) {
 
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
   const fullName = document.getElementById("fullName").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const country = document.getElementById("country").value;
+  const currency = document.getElementById("currency").value;
   const referralCode = document.getElementById("referralCode").value.trim();
+
+  if (password !== confirmPassword) {
+    message.textContent = "Passwords do not match.";
+    return;
+  }
 
   message.textContent = "Creating your account...";
 
   const { data, error } = await supabaseClient.auth.signUp({
     email: email,
-    password: password
+    password: password,
+    options: {
+      data: {
+        full_name: fullName,
+        phone: phone,
+        country: country,
+        currency: currency,
+        referral_code: referralCode
+      }
+    }
   });
 
   if (error) {
@@ -113,26 +269,13 @@ form.addEventListener("submit", async function(event) {
   }
 
   if (!data.user) {
-    message.textContent = "Account created. Please check your email to confirm your account.";
+    message.textContent =
+      "Account created. Please check your email to confirm your account.";
     return;
   }
 
-  const { error: profileError } = await supabaseClient
-    .from("profiles")
-    .insert({
-      id: data.user.id,
-      email: email,
-      full_name: fullName,
-      referral_code: referralCode || null,
-      test_balance: 0
-    });
-
-  if (profileError) {
-    message.textContent = "Account created but profile setup failed: " + profileError.message;
-    return;
-  }
-
-  message.textContent = "Account created successfully! Redirecting...";
+  message.textContent =
+    "Account created successfully! Redirecting...";
 
   setTimeout(function() {
     window.location.href = "dashboard.html";
